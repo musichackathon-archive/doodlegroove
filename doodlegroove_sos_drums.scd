@@ -44,7 +44,7 @@ Synth(\SOSkick)
 SynthDef(\SOSsnare,
 	{arg out = 0, sustain = 0.1, drum_mode_level = 0.25,
 	snare_level = 40, snare_tightness = 1000,
-	freq = 405, amp = 0.8;
+	freq = 405, amp = 0.8, pan = 0;
 	var drum_mode_sin_1, drum_mode_sin_2, drum_mode_pmosc, drum_mode_mix, drum_mode_env;
 	var snare_noise, snare_brf_1, snare_brf_2, snare_brf_3, snare_brf_4, snare_reson;
 	var snare_env;
@@ -70,7 +70,10 @@ SynthDef(\SOSsnare,
 	snare_brf_4 = BRF.ar(in: snare_brf_3, freq: 2000, mul: snare_env, rq: 0.0001);
 	snare_reson = Resonz.ar(snare_brf_4, snare_tightness, mul: snare_level) ;
 	snare_drum_mix = Mix.new([drum_mode_mix, snare_reson]) * 5 * amp;
-	Out.ar(out, [snare_drum_mix, snare_drum_mix])
+
+		snare_drum_mix = Pan2.ar(snare_drum_mix, pan);
+
+	Out.ar(out, snare_drum_mix)
 	}
 ).add
 )
