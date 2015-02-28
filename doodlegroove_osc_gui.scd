@@ -1,8 +1,18 @@
+OSCdef.freeAll
+//
+//
+
 (
 // faders ======================================
 OSCdef.newMatching(\xfade01,
 	{|msg, time, addr, recvPort|
-		('xfade01: ' ++ msg[1]).postln;
+		// ('xfade01: ' ++ msg[1]).postln;
+		~masterA.set(\amp, msg[1]);
+		~masterB.set(\amp, 1-msg[1]);
+
+		~cueA.set(\amp, 1-msg[1]);
+		~cueB.set(\amp, msg[1]);
+
 	},
 '/1/xfade01');
 
@@ -61,7 +71,8 @@ OSCdef.newMatching(\randomB_03,
 
 OSCdef.newMatching(\cueA_01,
 	{|msg, time, addr, recvPort|
-		('cueA_01: ' ++ msg[1]).postln;
+		// ('cueA_01: ' ++ msg[1]).postln;
+		if (msg[1]==1, {a.play},{a.stop})
 	},
 '/1/cueA_01');
 
@@ -79,7 +90,8 @@ OSCdef.newMatching(\cueA_03,
 
 OSCdef.newMatching(\cueB_01,
 	{|msg, time, addr, recvPort|
-		('cueB_01: ' ++ msg[1]).postln;
+		// ('cueB_01: ' ++ msg[1]).postln;
+		if (msg[1]==1, {b.play},{b.stop})
 	},
 '/1/cueB_01');
 
