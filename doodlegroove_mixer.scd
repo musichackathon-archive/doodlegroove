@@ -4,6 +4,14 @@
 // 3. build instruments for the channels
 // 4. make randomization of controls on each instrument
 
+// Boot the server with the aggregate device
+s = Server.local
+o = Server.local.options;
+o.device = "Aggregate Device"
+
+s.boot
+s.quit
+
 // ================================================================
 // mixing environment
 // ================================================================
@@ -11,7 +19,7 @@ FreqScope.new
 s.plotTree
 
 (
-SynthDef(\dice_01, {|out = 0, amp = 0.1, pan = 0, gate = 1, freq=440|
+SynthDef(\DG_01, {|out = 0, amp = 0.1, pan = 0, gate = 1, freq=440|
 	var env, sig;
 	env = EnvGen.kr(Env.asr(0.01,1,0.01),gate, 1, doneAction:2);
 	sig = env * Saw.ar(freq);
@@ -20,12 +28,20 @@ SynthDef(\dice_01, {|out = 0, amp = 0.1, pan = 0, gate = 1, freq=440|
 }).add;
 
 
-SynthDef(\dice_send, {|in = 4, out = 2, gate = 1, amp = 0.1|
+SynthDef(\DG_send_mono, {|in = 4, out = 2, gate = 1, amp = 0.1|
 	var env, sig;
 	env = EnvGen.kr(Env.asr(0.01,1,0.01),gate, 1, doneAction:2);
-	sig = env * In.ar(in);
+	sig = env * In.ar(in,1);
 	Out.ar(out, amp * sig);
 }).add;
+
+SynthDef(\DG_send_stereo, {|in = 4, out = 2, gate = 1, amp = 0.1|
+	var env, sig;
+	env = EnvGen.kr(Env.asr(0.01,1,0.01),gate, 1, doneAction:2);
+	sig = env * In.ar(in,2);
+	Out.ar(out, amp * sig);
+}).add;
+
 )
 
 (
@@ -34,20 +50,22 @@ SynthDef(\dice_send, {|in = 4, out = 2, gate = 1, amp = 0.1|
 // 4,5 - source A
 // 6,7 - source B
 
-~master_bus = 0;
-~cue_bus = 1;
+// 2-channel audio interface
+//~master_bus = 0;
+//~cue_bus = 1;
+
+// 4-channel aggregate audio device with H4n
+~master_bus = [2,3];
+~cue_bus = [0,1];
 
 ~groupA = Group.new;
 ~groupB = Group.new;
 
-// ~synthA_01 = Synth(\dice_01,[\out, 4, \freq, 440],~groupA, \addToHead);
-// ~synthB_01 = Synth(\dice_01,[\out, 6, \freq, 550],~groupB, \addToHead);
+~cueA = Synth(\DG_send_stereo,[\out, ~cue_bus, \in, 4], ~groupA, \addToTail);
+~cueB = Synth(\DG_send_stereo,[\out, ~cue_bus, \in, 6], ~groupB, \addToTail);
 
-~cueA = Synth(\dice_send,[\out, ~cue_bus, \in, 4], ~groupA, \addToTail);
-~cueB = Synth(\dice_send,[\out, ~cue_bus, \in, 6], ~groupB, \addToTail);
-
-~masterA = Synth(\dice_send,[\out, ~master_bus, \in, 4], ~groupA, \addToTail);
-~masterB = Synth(\dice_send,[\out, ~master_bus, \in, 6], ~groupB, \addToTail);
+~masterA = Synth(\DG_send_stereo,[\out, ~master_bus, \in, 4], ~groupA, \addToTail);
+~masterB = Synth(\DG_send_stereo,[\out, ~master_bus, \in, 6], ~groupB, \addToTail);
 )
 
 ~synthA_01.set(\amp, 0.3, \freq, 50)
