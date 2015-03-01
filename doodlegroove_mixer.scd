@@ -8,9 +8,7 @@
 s = Server.local
 o = Server.local.options;
 o.device = "Aggregate Device"
-
-s.boot
-s.quit
+s.boot;
 
 // ================================================================
 // mixing environment
