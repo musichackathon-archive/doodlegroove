@@ -4,12 +4,16 @@
 
 	arg emphArray, kikgroove;
 
+	var hits;
+
+	hits = Array.fill(16, {[Rest, 1].choose});
 
 	Pbind(
 		\instrument, \SinKik,
 		\dur, Prand([1, Pseq([0.5, 0.5]), Pseq([0.75, 0.25]), Pseq([0.5, 0.25, 0.25])], inf),
 		\freq, 150,
-		\amp, Pif(Pstep(kikgroove, 0.5) == 1, 0.5, 0.25) +  Pstep(emphArray, 0.25, inf)
+		\rest, Pseq(hits, inf),
+		\amp, (Pif(Pstep(kikgroove, 0.5) == 1, 0.5, 0.25) +  Pstep(emphArray, 0.25, inf))
 	);
 });
 
@@ -17,13 +21,17 @@
 
 	arg snareEmph, panI, groove;
 
+	var hits;
+
+	hits = Array.fill(16, {[Rest, 1].choose});
 
 
 	Pbind(
 		\instrument, \SOSsnare,
 		\dur, 0.25, // Prand([1, 0.25, 0.5, 0.75], inf),
 		\freq, Pstep([Rest, 405, Rest, 405], Pseq([0.25, 1.75, 0.25, 1.75], inf), inf),
-		\amp,  groove * 0.5 + Pstep(snareEmph * 0.1, 0.25, inf),
+		\rest, Pseq(hits, inf),
+		\amp, groove * 0.5 + Pstep(snareEmph * 0.1, 0.25, inf),
 		\pan, Pbrown(-0.5, 0.5, 0.5),
 		\drum_mode_level, 0.25 * Pstep(snareEmph, 0.25, inf),
 		\sustain, 0.3 * Pstep(snareEmph, 0.25, inf)
