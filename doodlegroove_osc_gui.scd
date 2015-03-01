@@ -72,7 +72,7 @@ OSCdef.newMatching(\randomB_03,
 OSCdef.newMatching(\cueA_01,
 	{|msg, time, addr, recvPort|
 		// ('cueA_01: ' ++ msg[1]).postln;
-		if (msg[1]==1, {a.play},{a.stop})
+		if (msg[1]==1, {a = ~playerA.play},{a.stop})
 	},
 '/1/cueA_01');
 
@@ -91,7 +91,7 @@ OSCdef.newMatching(\cueA_03,
 OSCdef.newMatching(\cueB_01,
 	{|msg, time, addr, recvPort|
 		// ('cueB_01: ' ++ msg[1]).postln;
-		if (msg[1]==1, {b.play},{b.stop})
+		if (msg[1]==1, {b = ~playerA.play},{b.stop})
 	},
 '/1/cueB_01');
 

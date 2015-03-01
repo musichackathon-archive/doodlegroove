@@ -32,8 +32,8 @@ SynthDef(\SOSkick,
 	Out.ar(out, [kick_mix, kick_mix])
 	}
 	).add
-)
-Synth(\SOSkick)
+);
+//Synth(\SOSkick)
 
 
 
@@ -76,8 +76,8 @@ SynthDef(\SOSsnare,
 	Out.ar(out, snare_drum_mix)
 	}
 ).add
-)
-Synth(\SOSsnare)
+);
+// Synth(\SOSsnare)
 
 
 
@@ -109,9 +109,9 @@ SynthDef(\SOShats,
 
 	Out.ar(out, cymbal_mix)
 	}).add
-)
+);
 
-Synth(\SOShats)
+// Synth(\SOShats)
 
 
 
@@ -143,4 +143,4 @@ SynthDef(\SOStom,
 ).add
 );
 
-Synth(\SOStom)
+// Synth(\SOStom)
