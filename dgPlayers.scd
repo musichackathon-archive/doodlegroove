@@ -86,7 +86,7 @@
 	rq = 0.1.rrand(1);
 	width = 0.1.rrand(1);
 	hits = Array.fill(4, {[Rest, 1].choose});
-	degrees = Array.fill(8, {[0, 2, 4, 5].choose});
+	degrees = Array.fill(8, {10.rand});
 
 	Pbind(
 		\instrument, \squareSynth,
