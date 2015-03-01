@@ -2,9 +2,12 @@
 
 ~kik = PlazyEnvir({
 
-	arg emphArray, kikgroove;
+	var emphArray, kikgroove;
 
 	var hits;
+
+	kikgroove = Bjorklund(2.rrand(5), 8);
+	emphArray = 16.collect({0.5.rand}).put(0, 1).put(4, 1).put(8, 1).put(12, 1);
 
 	hits = Array.fill(16, {[Rest, 1].choose});
 
@@ -19,11 +22,13 @@
 
 ~snare = PlazyEnvirN({
 
-	arg snareEmph, panI, groove;
+	var snareEmph, panI, groove;
 
 	var hits;
 
 	hits = Array.fill(16, {[Rest, 1].choose});
+	snareEmph = 16.collect({0.5.rand}).put(4,1).put(12,1);
+	groove = Bjorklund(2.rrand(9), 16);
 
 
 	Pbind(
@@ -40,29 +45,26 @@
 
 ~hiHat = PlazyEnvir({
 
-	arg hatEmph;
+	var hatEmph;
+
+	var hits;
+
+	hatEmph = 16.collect({0.5.rand}) + Bjorklund(5.rrand(13), 16);
+
+	hits = Array.fill(16, {[Rest, 1].choose});
 
 	Pbind(
 		\instrument, \SOShats,
 		\dur, 0.25,
 		\freq, Pbrown(4000, 7000, 20),
 		\pan, Pbrown(-1, 1, 0.25),
-		\sustain, Pseq(hatEmph, inf) * 0.2
+		\sustain, Pseq(hatEmph, inf) * 0.2,
+		\rest, Pseq(hits, inf)
 	);
 
 });
 
 
-~playerA = (Ppar([~hiHat, ~kik, ~snare]) <>
-	(
-		kikgroove:Pbjorklund(Pkey(\bNum)/2.floor, 8, inf, 8),
-		groove: Pbjorklund(Pkey(\bNum), 16, inf, 8),
-		emphArray: 16.collect({0.5.rand}).put(0, 1).put(4, 1).put(8, 1).put(12, 1),
-		snareEmph: 16.collect({0.5.rand}).put(4,1).put(12,1),
-		hatEmph: 16.collect({0.5.rand}) + Bjorklund(5.rrand(13), 16),
-		panI: 0.5.rrand(0)
-	)
-);
 
 )
 
