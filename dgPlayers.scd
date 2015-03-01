@@ -64,6 +64,23 @@
 
 });
 
+~bass = PlazyEnvir({
+
+	var degrees, hits;
+
+	hits = Array.fill(16, {[Rest, 1].choose});
+	degrees = Array.fill(3, {[0, 2, 4, 5].choose});
+
+	Pbind(
+		\instrument, \squareSynth,
+		\octave, 3,
+		\degree, Pstep(Prand(degrees, inf), Pseq([2, 1, 0.5, 0.1],inf)),
+		\dur, PdurStutter(Pwhite(0, 3), Pshuf([2, 1, 0.5, 0.5], inf)),
+		\amp, 0.6,
+		\legato, 0.95
+	);
+
+});
 
 
 )
