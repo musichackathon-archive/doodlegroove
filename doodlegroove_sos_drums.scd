@@ -86,7 +86,7 @@ Synth(\SOSsnare)
 
 (
 SynthDef(\SOShats,
-	{arg out = 0, freq = 6000, sustain = 0.1, amp = 0.8;
+	{arg out = 0, freq = 6000, sustain = 0.1, amp = 0.8, pan= 0;
 	var root_cymbal, root_cymbal_square, root_cymbal_pmosc;
 	var initial_bpf_contour, initial_bpf, initial_env;
 	var body_hpf, body_env;
@@ -105,7 +105,9 @@ SynthDef(\SOShats,
 	body_env = EnvGen.ar(Env.perc(0.005, sustain, 1, -2), 1.0, doneAction: 2);
 	body_hpf = HPF.ar(in: root_cymbal, freq: Line.kr(9000, 12000, sustain),mul: body_env, add: 0);
 	cymbal_mix = Mix.new([initial_bpf, body_hpf]) * amp;
-	Out.ar(out, [cymbal_mix, cymbal_mix])
+		cymbal_mix = Pan2.ar(cymbal_mix, pan);
+
+	Out.ar(out, cymbal_mix)
 	}).add
 )
 
