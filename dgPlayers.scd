@@ -4,7 +4,11 @@
 
 	var emphArray, kikgroove;
 
-	var hits;
+	var hits, freq, atk, rel;
+
+	freq = 120.rrand(180);
+	atk = 0.001.rrand(0.1);
+	rel = 0.2.rrand(0.7);
 
 	kikgroove = Bjorklund(2.rrand(5), 8);
 	emphArray = 16.collect({0.5.rand}).put(0, 1).put(4, 1).put(8, 1).put(12, 1);
@@ -14,7 +18,9 @@
 	Pbind(
 		\instrument, \SinKik,
 		\dur, Prand([1, Pseq([0.5, 0.5]), Pseq([0.75, 0.25]), Pseq([0.5, 0.25, 0.25])], inf),
-		\freq, 150,
+		\freq, freq,
+		\atk, atk,
+		\rel, rel,
 		\rest, Pseq(hits, inf),
 		\amp, (Pif(Pstep(kikgroove, 0.5) == 1, 0.5, 0.25) +  Pstep(emphArray, 0.25, inf))
 	);
@@ -24,11 +30,14 @@
 
 	var snareEmph, panI, groove;
 
-	var hits;
+	var hits, tight, snare_level;
+
+	tight = 200.rrand(1500);
 
 	hits = Array.fill(16, {[Rest, 1].choose});
 	snareEmph = 16.collect({0.5.rand}).put(4,1).put(12,1);
 	groove = Bjorklund(2.rrand(9), 16);
+	snare_level = 20.rrand(50);
 
 
 	Pbind(
@@ -36,10 +45,12 @@
 		\dur, 0.25, // Prand([1, 0.25, 0.5, 0.75], inf),
 		\freq, Pstep([Rest, 405, Rest, 405], Pseq([0.25, 1.75, 0.25, 1.75], inf), inf),
 		\rest, Pseq(hits, inf),
-		\amp, groove * 0.5 + Pstep(snareEmph * 0.1, 0.25, inf),
+		\amp, Pseq(snareEmph, inf) * 0.9,
 		\pan, Pbrown(-0.5, 0.5, 0.5),
 		\drum_mode_level, 0.25 * Pstep(snareEmph, 0.25, inf),
-		\sustain, 0.3 * Pstep(snareEmph, 0.25, inf)
+		\sustain, 0.3 * Pstep(snareEmph, 0.25, inf),
+		\snare_tightness, tight,
+		\snare_level, snare_level
 	);
 });
 
@@ -47,18 +58,21 @@
 
 	var hatEmph;
 
-	var hits;
+	var hits, sus, freq;
+
+	sus = 0.1.rrand(3);
 
 	hatEmph = 16.collect({0.5.rand}) + Bjorklund(5.rrand(13), 16);
 
 	hits = Array.fill(16, {[Rest, 1].choose});
+	freq = 2000.rrand(7000);
 
 	Pbind(
 		\instrument, \SOShats,
 		\dur, 0.25,
-		\freq, Pbrown(4000, 7000, 20),
+		\freq, Pbrown(freq, freq + 1000, 20),
 		\pan, Pbrown(-1, 1, 0.25),
-		\sustain, Pseq(hatEmph, inf) * 0.2,
+		\sustain, Pseq(hatEmph, inf) * sus,
 		\rest, Pseq(hits, inf)
 	);
 
@@ -66,18 +80,25 @@
 
 ~bass = PlazyEnvir({
 
-	var degrees, hits;
+	var degrees, hits, rq, filtFreq, width;
 
-	hits = Array.fill(16, {[Rest, 1].choose});
-	degrees = Array.fill(3, {[0, 2, 4, 5].choose});
+	filtFreq = 300.rrand(500);
+	rq = 0.1.rrand(1);
+	width = 0.1.rrand(1);
+	hits = Array.fill(4, {[Rest, 1].choose});
+	degrees = Array.fill(8, {[0, 2, 4, 5].choose});
 
 	Pbind(
 		\instrument, \squareSynth,
-		\octave, 3,
-		\degree, Pstep(Prand(degrees, inf), Pseq([2, 1, 0.5, 0.1],inf)),
+		\octave, 2,
+		\degree, Prand(degrees, inf),
 		\dur, PdurStutter(Pwhite(0, 3), Pshuf([2, 1, 0.5, 0.5], inf)),
 		\amp, 0.6,
-		\legato, 0.95
+		\rest, Pseq(hits, inf),
+		\legato, 0.95,
+		\filtFreq, Pbrown(filtFreq, 600, 25),
+		\rq, rq,
+		\width, width
 	);
 
 });
