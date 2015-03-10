@@ -29,7 +29,7 @@ SynthDef(\SinKik, {
 
 	Out.ar(out, snd);
 }).add;
-)
+);
 
 
 (

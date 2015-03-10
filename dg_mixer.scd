@@ -1,9 +1,3 @@
-// * 0. hook up the controller
-// 1. build a crossfader with cue
-// 2. expand to multiple channels on each side
-// 3. build instruments for the channels
-// 4. make randomization of controls on each instrument
-
 // Boot the server with the aggregate device
 s = Server.local
 o = Server.local.options;
@@ -13,7 +7,6 @@ s.boot;
 // ================================================================
 // mixing environment
 // ================================================================
-FreqScope.new
 s.plotTree
 
 (
@@ -53,8 +46,11 @@ SynthDef(\DG_send_stereo, {|in = 4, out = 2, gate = 1, amp = 0.1|
 //~cue_bus = 1;
 
 // 4-channel aggregate audio device with H4n
-~master_bus = [2,3];
-~cue_bus = [0,1];
+// ~master_bus = [2,3];
+// ~cue_bus = [0,1];
+
+~master_bus = [0];
+~cue_bus = [1];
 
 ~groupA = Group.new;
 ~groupB = Group.new;
