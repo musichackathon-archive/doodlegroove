@@ -39,5 +39,19 @@ OSCFunc.trace(true)
 OSCFunc.trace(false)
 OSCdef.freeAll
 
+//////////////////////////////////////////////////////////////////////
+/*
+TO DO
+- fix volume controls
+- shorten phrase length
+*/
 
-if (1==0, {'one'.postln}, {'two'.postln})
+
+~a_kik = (~kik <> (out:[0,1], group:~groupA)).play;
+~a_snare = (~snare <> (out:[0,1], group:~groupA)).play;
+~a_hat = (~hiHat <> (out:[0,1], group:~groupA)).play;
+
+
+~b_kik = (~kik <> (out:6, group:~groupB)).play;
+~b_snare = (~snare <> (out:6, group:~groupB)).play;
+~b_hat = (~hiHat <> (out:6, group:~groupB)).play;

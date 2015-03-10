@@ -24,13 +24,14 @@ SynthDef(\SinKik, {
 				pi/2);
 
 	snd = 	Mix.new(snd);
-	snd = Pan2.ar(snd, pan);
+	// snd = Pan2.ar(snd, pan);
 	snd = 	snd * env;
 
 	Out.ar(out, snd);
 }).add;
 );
 
+// Synth(\SinKik)
 
 (
 SynthDef(\SOSkick,
@@ -52,11 +53,13 @@ SynthDef(\SOSkick,
 	beater_lpf = LPF.ar(in: beater_hpf, freq: lpf_cutoff_contour, mul: 1, add: 0);
 	beater_env = beater_lpf * EnvGen.ar(Env.perc, 1.0, doneAction: 2);
 	kick_mix = Mix.new([drum_env, beater_env]) * 2 * amp;
-	Out.ar(out, [kick_mix, kick_mix])
+
+		// Out.ar(out, [kick_mix, kick_mix])
+	Out.ar(out, kick_mix)
 	}
 	).add
 );
-//Synth(\SOSkick)
+// Synth(\SOSkick)
 
 
 
@@ -94,7 +97,7 @@ SynthDef(\SOSsnare,
 	snare_reson = Resonz.ar(snare_brf_4, snare_tightness, mul: snare_level) ;
 	snare_drum_mix = Mix.new([drum_mode_mix, snare_reson]) * 5 * amp;
 
-		snare_drum_mix = Pan2.ar(snare_drum_mix, pan);
+		// snare_drum_mix = Pan2.ar(snare_drum_mix, pan);
 
 	Out.ar(out, snare_drum_mix)
 	}
@@ -128,7 +131,7 @@ SynthDef(\SOShats,
 	body_env = EnvGen.ar(Env.perc(0.005, sustain, 1, -2), 1.0, doneAction: 2);
 	body_hpf = HPF.ar(in: root_cymbal, freq: Line.kr(9000, 12000, sustain),mul: body_env, add: 0);
 	cymbal_mix = Mix.new([initial_bpf, body_hpf]) * amp;
-		cymbal_mix = Pan2.ar(cymbal_mix, pan);
+	//cymbal_mix = Pan2.ar(cymbal_mix, pan);
 
 	Out.ar(out, cymbal_mix)
 	}).add
@@ -161,11 +164,12 @@ SynthDef(\SOStom,
 	stick_noise = Crackle.ar(2.01, 1);
 	stick_env = EnvGen.ar(Env.perc(0.005, 0.01), 1.0) * 3;
 	tom_mix = Mix.new([drum_mode_mix, stick_env]) * 2 * amp;
-	Out.ar(out, [tom_mix, tom_mix])
+		// Out.ar(out, [tom_mix, tom_mix])
+	Out.ar(out, tom_mix);
 	}
 ).add
 );
-
+// Synth(\SOStom)
 
 (
 SynthDef(\squareSynth,
@@ -181,7 +185,7 @@ SynthDef(\squareSynth,
 		sig = RLPF.ar(sig, filtFreq, rq);
 		sig = sig * env;
 
-		sig = Pan2.ar(sig, pan);
+		// sig = Pan2.ar(sig, pan);
 
 		sig = sig + CombC.ar(sig, delaytime: 0.2, mul: 0.2);
 		sig = sig * delEnv;
@@ -191,3 +195,4 @@ SynthDef(\squareSynth,
 		Out.ar(out, sig);
 }).add;
 )
+// Synth(\squareSynth)

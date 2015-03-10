@@ -1,7 +1,7 @@
 // Boot the server with the aggregate device
 s = Server.local
 o = Server.local.options;
-o.device = "Aggregate Device"
+// o.device = "Aggregate Device"
 s.boot;
 
 // ================================================================
@@ -36,49 +36,35 @@ SynthDef(\DG_send_stereo, {|in = 4, out = 2, gate = 1, amp = 0.1|
 )
 
 (
-// 0,1 - master channels
-// 2,3 - cue channels
-// 4,5 - source A
-// 6,7 - source B
-
 // 2-channel audio interface
-//~master_bus = 0;
-//~cue_bus = 1;
-
-// 4-channel aggregate audio device with H4n
-// ~master_bus = [2,3];
-// ~cue_bus = [0,1];
-
-~master_bus = [0];
-~cue_bus = [1];
+~master_bus = 0;
+~cue_bus = 1;
+~groupA_bus = 2;
+~groupB_bus = 3;
 
 ~groupA = Group.new;
 ~groupB = Group.new;
 
-~cueA = Synth(\DG_send_stereo,[\out, ~cue_bus, \in, 4], ~groupA, \addToTail);
-~cueB = Synth(\DG_send_stereo,[\out, ~cue_bus, \in, 6], ~groupB, \addToTail);
+~cueA = Synth(\DG_send_mono,[\out, ~cue_bus, \in, ~groupA_bus], ~groupA, \addToTail);
+~cueB = Synth(\DG_send_mono,[\out, ~cue_bus, \in, ~groupB_bus], ~groupB, \addToTail);
 
-~masterA = Synth(\DG_send_stereo,[\out, ~master_bus, \in, 4], ~groupA, \addToTail);
-~masterB = Synth(\DG_send_stereo,[\out, ~master_bus, \in, 6], ~groupB, \addToTail);
+~masterA = Synth(\DG_send_mono,[\out, ~master_bus, \in, ~groupA_bus], ~groupA, \addToTail);
+~masterB = Synth(\DG_send_mono,[\out, ~master_bus, \in, ~groupB_bus], ~groupB, \addToTail);
 )
 
-~synthA_01.set(\amp, 0.3, \freq, 50)
-~synthB_01.set(\amp, 0.3, \freq, 50)
-
-
-~cueA.set(\amp, 0.5)
-~cueB.set(\amp, 0.1)
-
-~masterA.set(\amp, 0.0)
-~masterB.set(\amp, 0.1)
-
 (
-~cueA.free;
-~cueB.free;
+// 4-channel aggregate audio device with H4n
+~master_bus = 0;
+~cue_bus = 2;
+~groupA_bus = 4
+~groupB_bus = 6;
 
-~masterA.free;
-~masterB.free;
+~groupA = Group.new;
+~groupB = Group.new;
 
-~groupA.free;
-~groupB.free;
+~cueA = Synth(\DG_send_stereo,[\out, ~cue_bus, \in, ~groupA_bus], ~groupA, \addToTail);
+~cueB = Synth(\DG_send_stereo,[\out, ~cue_bus, \in, ~groupB_bus], ~groupB, \addToTail);
+
+~masterA = Synth(\DG_send_stereo,[\out, ~master_bus, \in, ~groupA_bus], ~groupA, \addToTail);
+~masterB = Synth(\DG_send_stereo,[\out, ~master_bus, \in, ~groupB_bus], ~groupB, \addToTail);
 )

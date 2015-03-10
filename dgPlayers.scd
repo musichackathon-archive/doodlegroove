@@ -1,6 +1,6 @@
 (
 
-~kik = PlazyEnvir({
+~kik = PlazyEnvir({|amp|
 
 	var emphArray, kikgroove;
 
@@ -22,11 +22,11 @@
 		\atk, atk,
 		\rel, rel,
 		\rest, Pseq(hits, inf),
-		\amp, (Pif(Pstep(kikgroove, 0.5) == 1, 0.5, 0.25) +  Pstep(emphArray, 0.25, inf))
+		\amp, amp*(Pif(Pstep(kikgroove, 0.5) == 1, 0.5, 0.25) +  Pstep(emphArray, 0.25, inf))
 	);
 });
 
-~snare = PlazyEnvirN({
+~snare = PlazyEnvirN({|amp|
 
 	var snareEmph, panI, groove;
 
@@ -45,7 +45,7 @@
 		\dur, 0.25, // Prand([1, 0.25, 0.5, 0.75], inf),
 		\freq, Pstep([Rest, 405, Rest, 405], Pseq([0.25, 1.75, 0.25, 1.75], inf), inf),
 		\rest, Pseq(hits, inf),
-		\amp, Pseq(snareEmph, inf) * 0.9,
+		\amp, amp * Pseq(snareEmph, inf),
 		\pan, Pbrown(-0.5, 0.5, 0.5),
 		\drum_mode_level, 0.25 * Pstep(snareEmph, 0.25, inf),
 		\sustain, 0.3 * Pstep(snareEmph, 0.25, inf),
@@ -54,7 +54,7 @@
 	);
 });
 
-~hiHat = PlazyEnvir({
+~hiHat = PlazyEnvir({|amp|
 
 	var hatEmph;
 
@@ -69,6 +69,7 @@
 
 	Pbind(
 		\instrument, \SOShats,
+		\amp, amp,
 		\dur, 0.25,
 		\freq, Pbrown(freq, freq + 1000, 20),
 		\pan, Pbrown(-1, 1, 0.25),
@@ -78,7 +79,7 @@
 
 });
 
-~bass = PlazyEnvir({
+~bass = PlazyEnvir({|amp|
 
 	var degrees, hits, rq, filtFreq, width;
 
@@ -93,7 +94,7 @@
 		\octave, 2,
 		\degree, Prand(degrees, inf),
 		\dur, PdurStutter(Pwhite(0, 3), Pshuf([2, 1, 0.5, 0.5], inf)),
-		\amp, 0.6,
+		\amp, amp,
 		\rest, Pseq(hits, inf),
 		\legato, 0.95,
 		\filtFreq, Pbrown(filtFreq, 600, 25),
