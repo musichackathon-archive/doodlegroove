@@ -17,12 +17,15 @@
 
 	Pbind(
 		\instrument, \SinKik,
-		\dur, Prand([1, Pseq([0.5, 0.5]), Pseq([0.75, 0.25]), Pseq([0.5, 0.25, 0.25])], inf),
+		// \instrument, \SOSkick,
+		// \dur, Prand([1, Pseq([0.5, 0.5]), Pseq([0.75, 0.25]), Pseq([0.5, 0.25, 0.25])], inf),
+		\dur, 0.5,
 		\freq, freq,
 		\atk, atk,
-		\rel, rel,
+		\rel, Prand([1, Pseq([0.5, 0.5]), Pseq([0.75, 0.25]), Pseq([0.5, 0.25, 0.25])], inf),
 		\rest, Pseq(hits, inf),
-		\amp, amp*(Pif(Pstep(kikgroove, 0.5) == 1, 0.5, 0.25) +  Pstep(emphArray, 0.25, inf))
+		// \amp, amp*(Pif(Pstep(kikgroove, 0.5) == 1, 0.5, 0.25) +  Pstep(emphArray, 0.25, inf))
+		\amp, amp
 	);
 });
 
@@ -35,6 +38,7 @@
 	tight = 200.rrand(1500);
 
 	hits = Array.fill(16, {[Rest, 1].choose});
+
 	snareEmph = 16.collect({0.5.rand}).put(4,1).put(12,1);
 	groove = Bjorklund(2.rrand(9), 16);
 	snare_level = 20.rrand(50);
@@ -79,7 +83,7 @@
 
 });
 
-~bass = PlazyEnvir({|amp|
+~bass = PlazyEnvir({|amp|[
 
 	var degrees, hits, rq, filtFreq, width;
 

@@ -18,28 +18,28 @@ OSCdef.newMatching(\xfade01,
 // RANDOMS ======================================
 OSCdef.newMatching(\randomA_01,
 	{|msg, time, addr, recvPort|
-		('randomA_01: ' ++ msg[1]).postln;
+		// ('randomA_01: ' ++ msg[1]).postln;
 		if (msg[1]!=1, {~a_kik_A = (~kik <> (out:~groupA_bus, group:~groupA)).play(quant:1)},{~a_kik_A.stop})
 	},
 '/1/randomA_01');
 
 OSCdef.newMatching(\randomA_02,
 	{|msg, time, addr, recvPort|
-		('randomA_02: ' ++ msg[1]).postln;
+		// ('randomA_02: ' ++ msg[1]).postln;
 		if (msg[1]!=1, {~a_snare_A = (~snare <> (out:~groupA_bus, group:~groupA)).play(quant:1)},{~a_snare_A.stop})
 	},
 '/1/randomA_02');
 
 OSCdef.newMatching(\randomA_03,
 	{|msg, time, addr, recvPort|
-		('randomA_03: ' ++ msg[1]).postln;
+		// ('randomA_03: ' ++ msg[1]).postln;
 		if (msg[1]!=1, {~a_hat_A = (~hiHat <> (out:~groupA_bus, group:~groupA)).play(quant:1)},{~a_hat_A.stop})
 	},
 '/1/randomA_03');
 
 OSCdef.newMatching(\randomA_04,
 	{|msg, time, addr, recvPort|
-		('randomA_03: ' ++ msg[1]).postln;
+		// ('randomA_03: ' ++ msg[1]).postln;
 		if (msg[1]!=1, {~a_bass_A = (~bass <> (out:~groupA_bus, group:~groupA)).play(quant:1)},{~a_bass_A.stop})
 	},
 '/1/randomA_04');

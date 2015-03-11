@@ -42,16 +42,29 @@ OSCdef.freeAll
 //////////////////////////////////////////////////////////////////////
 /*
 TO DO
-- fix volume controls
-- shorten phrase length
+
+- fix bass drum loop
+- fix bass synth loop
+
 */
+(
+~a_kik.stop;
+~a_snare.stop;
+~a_hat.stop;
+~a_bass.stop;
 
 
-~a_kik = (~kik <> (out:[0,1], group:~groupA)).play;
-~a_snare = (~snare <> (out:[0,1], group:~groupA)).play;
-~a_hat = (~hiHat <> (out:[0,1], group:~groupA)).play;
+~a_kik = (~kik <> (out:[0,1], group:~groupA, amp:0.2)).play(quant:1);
+
+~a_snare = (~snare <> (out:[0,1], group:~groupA, amp:0.2)).play(quant:1);
+
+~a_hat = (~hiHat <> (out:[0,1], group:~groupA, amp:0.02)).play(quant:1);
+
+~a_bass = (~bass <> (out:[0,1], group:~groupA, amp:0.2)).play(quant:1);
+)
 
 
 ~b_kik = (~kik <> (out:6, group:~groupB)).play;
 ~b_snare = (~snare <> (out:6, group:~groupB)).play;
 ~b_hat = (~hiHat <> (out:6, group:~groupB)).play;
+
