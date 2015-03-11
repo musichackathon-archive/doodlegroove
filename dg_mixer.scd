@@ -1,13 +1,25 @@
 // Boot the server with the aggregate device
 s = Server.local
 o = Server.local.options;
+o
+
+numOutputBusChannels (default:8)
+numAudioBusChannels (dfault:128)
+numPrivateAudioBusChannels
+
+
 // o.device = "Aggregate Device"
 s.boot;
+s.quit
+
+t = TempoClock.default
+t.tempo_(185/60)
 
 // ================================================================
 // mixing environment
 // ================================================================
 s.plotTree
+
 
 (
 SynthDef(\DG_01, {|out = 0, amp = 0.1, pan = 0, gate = 1, freq=440|
@@ -56,7 +68,7 @@ SynthDef(\DG_send_stereo, {|in = 4, out = 2, gate = 1, amp = 0.1|
 // 4-channel aggregate audio device with H4n
 ~master_bus = 0;
 ~cue_bus = 2;
-~groupA_bus = 4
+~groupA_bus = 4;
 ~groupB_bus = 6;
 
 ~groupA = Group.new;
